@@ -1,0 +1,163 @@
+
+mysql> use earthdb;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_earthdb |
++-------------------+
+| hollywood         |
+| tollywood         |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc hollywood;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int         | NO   | PRI | NULL    | auto_increment |
+| name_ha | varchar(20) | NO   |     | NULL    |                |
+| age     | int         | NO   |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc tollywood;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | NO   | PRI | NULL    |       |
+| name_ta | varchar(20) | YES  |     | NULL    |       |
+| movie   | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from hollywood;
++------+-----------+-----+
+| id   | name_ha   | age |
++------+-----------+-----+
+| 2601 | chris     |  39 |
+| 2602 | katherine |  25 |
+| 2603 | josephine |  24 |
+| 2604 | millie    |  18 |
+| 2605 | dacota    |  33 |
++------+-----------+-----+
+5 rows in set (0.00 sec)
+
+mysql> select * from tollywood;
++------+-------------------+-------------+
+| id   | name_ta           | movie       |
++------+-------------------+-------------+
+| 2601 | allu              | pushpa      |
+| 2602 | ram               | rrr         |
+| 2603 | suriya            | vikram      |
+| 2604 | Rashmika          | pushpa      |
+| 2605 | Rajnikant         | robot       |
+| 2606 | vijay deveraconda | arjun reddy |
++------+-------------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select hollywood.name_ha,hollywood.age,tollywood.name_ta,tollywood.movie
+    -> from hollywood
+    -> INNER JOIN tollywood
+    -> ON hollywood.id=tollywood.id;
++-----------+-----+-----------+--------+
+| name_ha   | age | name_ta   | movie  |
++-----------+-----+-----------+--------+
+| chris     |  39 | allu      | pushpa |
+| katherine |  25 | ram       | rrr    |
+| josephine |  24 | suriya    | vikram |
+| millie    |  18 | Rashmika  | pushpa |
+| dacota    |  33 | Rajnikant | robot  |
++-----------+-----+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql>  select hollywood.name_ha,tollywood.name_ta
+    -> from hollywood
+    -> RIGHT JOIN tollywood
+    ->  ON hollywood.id=tollywood.id;
++-----------+-------------------+
+| name_ha   | name_ta           |
++-----------+-------------------+
+| chris     | allu              |
+| katherine | ram               |
+| josephine | suriya            |
+| millie    | Rashmika          |
+| dacota    | Rajnikant         |
+| NULL      | vijay deveraconda |
++-----------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql>  select * from hollywood full join tollywood;
++------+-----------+-----+------+-------------------+-------------+
+| id   | name_ha   | age | id   | name_ta           | movie       |
++------+-----------+-----+------+-------------------+-------------+
+| 2605 | dacota    |  33 | 2601 | allu              | pushpa      |
+| 2604 | millie    |  18 | 2601 | allu              | pushpa      |
+| 2603 | josephine |  24 | 2601 | allu              | pushpa      |
+| 2602 | katherine |  25 | 2601 | allu              | pushpa      |
+| 2601 | chris     |  39 | 2601 | allu              | pushpa      |
+| 2605 | dacota    |  33 | 2602 | ram               | rrr         |
+| 2604 | millie    |  18 | 2602 | ram               | rrr         |
+| 2603 | josephine |  24 | 2602 | ram               | rrr         |
+| 2602 | katherine |  25 | 2602 | ram               | rrr         |
+| 2601 | chris     |  39 | 2602 | ram               | rrr         |
+| 2605 | dacota    |  33 | 2603 | suriya            | vikram      |
+| 2604 | millie    |  18 | 2603 | suriya            | vikram      |
+| 2603 | josephine |  24 | 2603 | suriya            | vikram      |
+| 2602 | katherine |  25 | 2603 | suriya            | vikram      |
+| 2601 | chris     |  39 | 2603 | suriya            | vikram      |
+| 2605 | dacota    |  33 | 2604 | Rashmika          | pushpa      |
+| 2604 | millie    |  18 | 2604 | Rashmika          | pushpa      |
+| 2603 | josephine |  24 | 2604 | Rashmika          | pushpa      |
+| 2602 | katherine |  25 | 2604 | Rashmika          | pushpa      |
+| 2601 | chris     |  39 | 2604 | Rashmika          | pushpa      |
+| 2605 | dacota    |  33 | 2605 | Rajnikant         | robot       |
+| 2604 | millie    |  18 | 2605 | Rajnikant         | robot       |
+| 2603 | josephine |  24 | 2605 | Rajnikant         | robot       |
+| 2602 | katherine |  25 | 2605 | Rajnikant         | robot       |
+| 2601 | chris     |  39 | 2605 | Rajnikant         | robot       |
+| 2605 | dacota    |  33 | 2606 | vijay deveraconda | arjun reddy |
+| 2604 | millie    |  18 | 2606 | vijay deveraconda | arjun reddy |
+| 2603 | josephine |  24 | 2606 | vijay deveraconda | arjun reddy |
+| 2602 | katherine |  25 | 2606 | vijay deveraconda | arjun reddy |
+| 2601 | chris     |  39 | 2606 | vijay deveraconda | arjun reddy |
++------+-----------+-----+------+-------------------+-------------+
+30 rows in set (0.00 sec)
+
+mysql>  select * from hollywood cross join tollywood;
++------+-----------+-----+------+-------------------+-------------+
+| id   | name_ha   | age | id   | name_ta           | movie       |
++------+-----------+-----+------+-------------------+-------------+
+| 2605 | dacota    |  33 | 2601 | allu              | pushpa      |
+| 2604 | millie    |  18 | 2601 | allu              | pushpa      |
+| 2603 | josephine |  24 | 2601 | allu              | pushpa      |
+| 2602 | katherine |  25 | 2601 | allu              | pushpa      |
+| 2601 | chris     |  39 | 2601 | allu              | pushpa      |
+| 2605 | dacota    |  33 | 2602 | ram               | rrr         |
+| 2604 | millie    |  18 | 2602 | ram               | rrr         |
+| 2603 | josephine |  24 | 2602 | ram               | rrr         |
+| 2602 | katherine |  25 | 2602 | ram               | rrr         |
+| 2601 | chris     |  39 | 2602 | ram               | rrr         |
+| 2605 | dacota    |  33 | 2603 | suriya            | vikram      |
+| 2604 | millie    |  18 | 2603 | suriya            | vikram      |
+| 2603 | josephine |  24 | 2603 | suriya            | vikram      |
+| 2602 | katherine |  25 | 2603 | suriya            | vikram      |
+| 2601 | chris     |  39 | 2603 | suriya            | vikram      |
+| 2605 | dacota    |  33 | 2604 | Rashmika          | pushpa      |
+| 2604 | millie    |  18 | 2604 | Rashmika          | pushpa      |
+| 2603 | josephine |  24 | 2604 | Rashmika          | pushpa      |
+| 2602 | katherine |  25 | 2604 | Rashmika          | pushpa      |
+| 2601 | chris     |  39 | 2604 | Rashmika          | pushpa      |
+| 2605 | dacota    |  33 | 2605 | Rajnikant         | robot       |
+| 2604 | millie    |  18 | 2605 | Rajnikant         | robot       |
+| 2603 | josephine |  24 | 2605 | Rajnikant         | robot       |
+| 2602 | katherine |  25 | 2605 | Rajnikant         | robot       |
+| 2601 | chris     |  39 | 2605 | Rajnikant         | robot       |
+| 2605 | dacota    |  33 | 2606 | vijay deveraconda | arjun reddy |
+| 2604 | millie    |  18 | 2606 | vijay deveraconda | arjun reddy |
+| 2603 | josephine |  24 | 2606 | vijay deveraconda | arjun reddy |
+| 2602 | katherine |  25 | 2606 | vijay deveraconda | arjun reddy |
+| 2601 | chris     |  39 | 2606 | vijay deveraconda | arjun reddy |
++------+-----------+-----+------+-------------------+-------------+
+30 rows in set (0.00 sec)
+
+mysql>
